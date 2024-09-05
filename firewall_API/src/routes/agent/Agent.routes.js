@@ -1,10 +1,13 @@
 import { Router } from "express";
 import multer from "multer";
+import {sendProgramList} from './../../controllers/Agent.controller.js'
 
 const agentRouter = Router();
 
-agentRouter.router('/connect').post()
-agentRouter.route('/send-programs-list').post()
+const upload = multer();
+
+agentRouter.route('/send-programs-list').post(upload.none(),sendProgramList)
+
 agentRouter.route('/get-changes').get()
 
-export default {agentRouter}
+export default agentRouter

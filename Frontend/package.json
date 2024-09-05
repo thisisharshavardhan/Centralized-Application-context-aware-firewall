@@ -1,0 +1,16 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "Centralized Application-Context-Aware Firewall",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "firewall",
+    "harsha",
+    "vitb"
+  ],
+  "author": "Firewallers",
+  "license": "ISC"
+}

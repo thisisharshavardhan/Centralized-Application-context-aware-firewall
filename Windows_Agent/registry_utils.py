@@ -14,4 +14,3 @@ def get_installed_apps():
 
     all_apps = traditional_apps + store_apps
     return all_apps
-

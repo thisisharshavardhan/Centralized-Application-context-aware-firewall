@@ -1,6 +1,6 @@
 import express from "express"
 import { DB_connect } from "./DB/index.db.js"
-const app = express()
+import { app } from "./app.js"
 import {} from 'dotenv/config'
 
 DB_connect().then(()=>{
