@@ -6,13 +6,13 @@ function Firewall() {
     useEffect(() => {
          axios.get('http://localhost:5000/api/web-console/get-programs-list')
         .then((response) => {
-            setPrograms(response.data)
-            console.log(Programs)
+            setPrograms(response.data)   
         })
         .catch((error) => {
             console.log(error)
         })
     }, [])
+    console.log(Programs)
   return (
     <>
         <h4>Centralized application-context aware firewall</h4>
@@ -23,7 +23,7 @@ function Firewall() {
                         return null
                     }
                     else{
-                        return <p key={index}> <span>{index}  </span>  {program.DisplayName}</p>
+                        return <p key={index}> <span>{index}.  </span>  {program.DisplayName}</p>
                     }
                 })
            }
