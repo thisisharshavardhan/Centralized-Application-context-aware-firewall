@@ -1,6 +1,6 @@
 import { useEffect,useState } from 'react'
 import './Device.css'
-import { useParams } from 'react-router-dom'
+import { json, useParams } from 'react-router-dom'
 import axios from 'axios'
 function Device() {
     const {id} = useParams()
@@ -16,7 +16,7 @@ function Device() {
         })
         axios.get(`http://localhost:5000/api/web-console/get-firewall-rules`)
         .then(res => {
-            setFirewallRules(res.data)
+            setFirewallRules(JSON.parse(res.data))
         })
         .catch(err => {
             console.log(err)
@@ -44,6 +44,42 @@ function Device() {
                     <span className='lato-light'>{device.hostname}</span>
                 </div>
             </div>
+        </div>
+        <div className='firewall-rules-outerdiv'>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>enabled</th>
+                    <th>direction</th>
+                    <th>profiles</th>
+                    <th>grouping</th>
+                    <th>local_ip</th>
+                    <th>remote_ip</th>
+                    <th>protocol</th>
+                    <th>local_port</th>
+                    <th>remote_port</th>
+                    <th>action</th>
+                </tr>
+                <tbody>
+                    {firewallRules.map(rule => {
+                        return (
+                            <tr key={rule.name}>
+                                <td>{rule.name}</td>
+                                <td>{rule.enabled}</td>
+                                <td>{rule.direction}</td>
+                                <td>{rule.profiles}</td>
+                                <td>{rule.grouping}</td>
+                                <td>{rule.local_ip}</td>
+                                <td>{rule.remote_ip}</td>
+                                <td>{rule.protocol}</td>
+                                <td>{rule.local_port}</td>
+                                <td>{rule.remote_port}</td>
+                                <td>{rule.action}</td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
         </div>
     </div>
   )

@@ -19,9 +19,9 @@ function Devices() {
         <div className="outer-div">
         <h3 className="connecteddevicesHeading lato-regular">Connected Devices</h3>
         <div className="main-device">
-            <table>
+            <table className="devices-list-table">
                 <thead>
-                    <tr className="">
+                    <tr className="devices-list-table-heading">
                         <th>Device Name</th>
                         <th>IP</th>
                         <th>OS</th>

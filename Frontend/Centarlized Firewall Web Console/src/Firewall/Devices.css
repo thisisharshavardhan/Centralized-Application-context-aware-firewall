@@ -8,20 +8,20 @@ table{
     color: white;
     padding: 10px;
 }
-thead{
+.devices-list-table thead{
     background-color: rgb(32, 32, 32);
 }
-td{
+.devices-list-table td{
     /* border: 1px solid white; */
     color: white;
     padding: 10px 4em;
 }
-th{
+.devices-list-table-heading th{
     /* border: 1px solid white; */
     color: white;
     padding: 10px 4em;
 }
-tr:hover{
+.devices-list-table tr:hover{
     background-color: rgb(109, 108, 108);
     cursor: pointer;
 }
