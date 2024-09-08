@@ -21,7 +21,7 @@ function Devices() {
         <div className="main-device">
             <table>
                 <thead>
-                    <tr>
+                    <tr className="">
                         <th>Device Name</th>
                         <th>IP</th>
                         <th>OS</th>
@@ -32,7 +32,7 @@ function Devices() {
                 </thead>
                 <tbody>
                     {devices.map((device) => (
-                      <tr className="tr-data" key={device._id}>
+                      <tr className="tr-data lato-light" key={device._id} >
                             {/* <td>{device.device_name}</td>
                             <td>{device.ip}</td>
                             <td>{device.os}</td>

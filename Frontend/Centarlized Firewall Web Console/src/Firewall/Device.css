@@ -1,0 +1,19 @@
+.device-information{
+    width: 100%;
+    flex-grow: 1;
+    padding: 20px;
+}
+.device-details {
+  box-shadow: 0 0 10px 0 rgba(129, 129, 129, 0.1);
+}
+.device-data{
+    display: flex;
+}
+.device-info {
+  margin-left: 40px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}

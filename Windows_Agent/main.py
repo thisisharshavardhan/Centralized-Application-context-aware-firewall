@@ -14,12 +14,18 @@ def send_system_info():
     else:
         print(f"Failed to send system info: {response.status_code}")
 
-send_system_info()
-
 @app.get("/agent/get-programs-list")
 async def hello():
     print('get-programs-list')
     return Firewall_utils.get_installed_apps()
+
+@app.get("/agent/get-firewall-rules")
+async def hello():
+    print('get-firewall-rules')
+    return Firewall_utils.get_firewall_rules()
+
+
+send_system_info()
 
 if __name__ == "__main__":
     import uvicorn
