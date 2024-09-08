@@ -1,7 +1,8 @@
 import './App.css'
 // import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import { NavLink, Routes,Route } from 'react-router-dom'
-import Firewall_Application_List from './Firewall/Firewall_Application_List'
+import Devices from './Firewall/Devices'
+import Device from './Firewall/Device'
 function App() {
   return (
     
@@ -25,7 +26,9 @@ function App() {
           </nav>
             <div className='content'>
                 <Routes>
-                    <Route path='/dashboard' element={<Firewall_Application_List />} />
+                    <Route path='/dashboard' element={<>No files</>} />
+                    <Route path='/devices' element={<Devices/>} />
+                    <Route path='/devices/:id' element={<Device/>} />
                 </Routes>
             </div>
         </div>

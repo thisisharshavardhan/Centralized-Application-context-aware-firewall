@@ -1,0 +1,49 @@
+.main-device{
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-content: center;
+}
+table{
+    color: white;
+    padding: 10px;
+}
+thead{
+    background-color: rgb(32, 32, 32);
+}
+td{
+    /* border: 1px solid white; */
+    color: white;
+    padding: 10px 4em;
+}
+th{
+    /* border: 1px solid white; */
+    color: white;
+    padding: 10px 4em;
+}
+tr:hover{
+    background-color: rgb(109, 108, 108);
+    cursor: pointer;
+}
+a{
+    color: rgb(251, 255, 0);
+    /* text-decoration: none; */
+}
+.tr-data{
+    background-color: rgb(73, 73, 73);
+}
+
+.outer-div{
+    background-color: rgb(49, 49, 49);
+    height: 100%;
+    /* width = fullwidth - .natigationbar class width */
+    /* width: calc() */
+}
+
+.connecteddevicesHeading{
+    margin-bottom: 20px;
+    padding: 20px;
+    margin-left: 20px;
+    color: white;
+    width: 100%;
+}
