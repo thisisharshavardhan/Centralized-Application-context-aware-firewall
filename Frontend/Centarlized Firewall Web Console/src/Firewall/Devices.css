@@ -25,7 +25,7 @@ table{
     background-color: rgb(109, 108, 108);
     cursor: pointer;
 }
-a{
+.device-name-link {
     color: rgb(251, 255, 0);
     /* text-decoration: none; */
 }

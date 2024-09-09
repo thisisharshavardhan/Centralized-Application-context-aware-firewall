@@ -39,7 +39,7 @@ function Devices() {
                             <td>{device.os_version}</td>
                             <td>{device.status}</td>
                             <td>{device.hostname}</td> */}
-                            <td><NavLink to={`/devices/${device._id}`}>{device.device_name}</NavLink></td>
+                            <td><NavLink to={`/devices/${device._id}`} className={'device-name-link'}>{device.device_name}</NavLink></td>
                             <td>{device.ip}</td>
                             <td>{device.os}</td>
                             <td>{device.os_version}</td>

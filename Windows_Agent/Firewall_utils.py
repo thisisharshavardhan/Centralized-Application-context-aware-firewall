@@ -103,3 +103,197 @@ def parse_firewall_rules(output):
         rules.append(rule)
     return rules
 
+def set_firewall_rule(rule_name, direction, action, protocol, local_port, remote_port, local_ip, remote_ip):
+    try:
+        if not rule_name:
+            raise Exception("Rule name is required")
+        if not direction:
+            raise Exception("Direction is required")
+        if not action:
+            raise Exception("Action is required")
+        if not protocol:
+            protocol = "Any"  
+        if not local_port:
+            raise Exception("Local port is required")
+        if not remote_port:
+            raise Exception("Remote port is required")
+        if not local_ip:
+            raise Exception("Local IP is required")
+        if not remote_ip:
+            raise Exception("Remote IP is required")
+        if action not in ["allow", "block"]:
+            raise Exception("Invalid action. Must be 'allow' or 'block'")
+        if direction not in ["in", "out"]:
+            raise Exception("Invalid direction. Must be 'in' or 'out'")
+        
+        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rule_name, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + local_port, 'remoteport=' + remote_port, 'localip=' + local_ip, 'remoteip=' + remote_ip], capture_output=True, text=True)
+        
+        if result.returncode != 0:
+            raise Exception(f"Command failed with return code {result.returncode}")
+        
+        return True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+
+def set_firewall_rule_port(rule_name, direction, action, protocol, local_port, remote_port):
+    try:
+        if not rule_name:
+            raise Exception("Rule name is required")
+        if not direction:
+            raise Exception("Direction is required")
+        if not action:
+            raise Exception("Action is required")
+        if not protocol:
+            protocol = "Any"  
+        if not local_port:
+            raise Exception("Local port is required")
+        if not remote_port:
+            raise Exception("Remote port is required")
+        if action not in ["allow", "block"]:
+            raise Exception("Invalid action. Must be 'allow' or 'block'")
+        if direction not in ["in", "out"]:
+            raise Exception("Invalid direction. Must be 'in' or 'out'")
+        
+        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rule_name, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + local_port, 'remoteport=' + remote_port], capture_output=True, text=True)
+        
+        if result.returncode != 0:
+            raise Exception(f"Command failed with return code {result.returncode}")
+        
+        return True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+
+def set_firewall_rule_ip(rule_name, direction, action, protocol, local_ip, remote_ip):
+    try:
+        if not rule_name:
+            raise Exception("Rule name is required")
+        if not direction:
+            raise Exception("Direction is required")
+        if not action:
+            raise Exception("Action is required")
+        if not protocol:
+            protocol = "Any"  
+        if not local_ip:
+            raise Exception("Local IP is required")
+        if not remote_ip:
+            raise Exception("Remote IP is required")
+        if action not in ["allow", "block"]:
+            raise Exception("Invalid action. Must be 'allow' or 'block'")
+        if direction not in ["in", "out"]:
+            raise Exception("Invalid direction. Must be 'in' or 'out'")
+        
+        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rule_name, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localip=' + local_ip, 'remoteip=' + remote_ip], capture_output=True, text=True)
+        
+        if result.returncode != 0:
+            raise Exception(f"Command failed with return code {result.returncode}")
+        
+        return True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+
+def set_firewall_rule_port_app(rule_name, direction, action, protocol, local_port, remote_port, app_path):
+    try:
+        if not rule_name:
+            raise Exception("Rule name is required")
+        if not direction:
+            raise Exception("Direction is required")
+        if not action:
+            raise Exception("Action is required")
+        if not protocol:
+            protocol = "Any"  
+        if not local_port:
+            raise Exception("Local port is required")
+        if not remote_port:
+            raise Exception("Remote port is required")
+        if not app_path:
+            raise Exception("Application path is required")
+        if action not in ["allow", "block"]:
+            raise Exception("Invalid action. Must be 'allow' or 'block'")
+        if direction not in ["in", "out"]:
+            raise Exception("Invalid direction. Must be 'in' or 'out'")
+        
+        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rule_name, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + local_port, 'remoteport=' + remote_port, 'program=' + app_path], capture_output=True, text=True)
+        
+        if result.returncode != 0:
+            raise Exception(f"Command failed with return code {result.returncode}")
+        
+        return True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+
+def set_firewall_rule_ip_app(rule_name, direction, action, protocol, local_ip, remote_ip, app_path):
+    try:
+        if not rule_name:
+            raise Exception("Rule name is required")
+        if not direction:
+            raise Exception("Direction is required")
+        if not action:
+            raise Exception("Action is required")
+        if not protocol:
+            protocol = "Any"  
+        if not local_ip:
+            raise Exception("Local IP is required")
+        if not remote_ip:
+            raise Exception("Remote IP is required")
+        if not app_path:
+            raise Exception("Application path is required")
+        if action not in ["allow", "block"]:
+            raise Exception("Invalid action. Must be 'allow' or 'block'")
+        if direction not in ["in", "out"]:
+            raise Exception("Invalid direction. Must be 'in' or 'out'")
+        
+        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rule_name, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localip=' + local_ip, 'remoteip=' + remote_ip, 'program=' + app_path], capture_output=True, text=True)
+        
+        if result.returncode != 0:
+            raise Exception(f"Command failed with return code {result.returncode}")
+        
+        return True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+    
+def set_firewall_rule_app(rule_name, app_path, direction, action, protocol, local_port, remote_port, local_ip, remote_ip):
+    try:
+        if not rule_name:
+            raise Exception("Rule name is required")
+        if not app_path:
+            raise Exception("Application path is required")
+        if not direction:
+            raise Exception("Direction is required")
+        if not action:
+            raise Exception("Action is required")
+        if not protocol:
+            protocol = "Any"  
+        if not local_port:
+            raise Exception("Local port is required")
+        if not remote_port:
+            raise Exception("Remote port is required")
+        if not local_ip:
+            raise Exception("Local IP is required")
+        if not remote_ip:
+            raise Exception("Remote IP is required")
+        if action not in ["allow", "block"]:
+            raise Exception("Invalid action. Must be 'allow' or 'block'")
+        if direction not in ["in", "out"]:
+            raise Exception("Invalid direction. Must be 'in' or 'out'")
+        
+        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rule_name, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + local_port, 'remoteport=' + remote_port, 'localip=' + local_ip, 'remoteip=' + remote_ip, 'program=' + app_path], capture_output=True, text=True)
+        
+        if result.returncode != 0:
+            raise Exception(f"Command failed with return code {result.returncode}")
+        
+        return True
+    
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+
