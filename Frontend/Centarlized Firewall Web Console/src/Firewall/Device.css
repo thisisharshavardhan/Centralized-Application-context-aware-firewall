@@ -17,8 +17,41 @@
   justify-content: space-between;
   flex-direction: column;
 }
+
 .firewall-rules-outerdiv{
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    
+}
+
+.firewall-rules{
+    margin-top: 10px;
+    margin-left: 20px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.firewall-rules button{
+    
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.firewall-rules-buttons{
+    display: flex;
+    flex-direction: row;
+}
+
+.firewall-rules-outerdiv table tr th{
+    padding: 5px;
+    background-color: rgb(0, 0, 0);
 }

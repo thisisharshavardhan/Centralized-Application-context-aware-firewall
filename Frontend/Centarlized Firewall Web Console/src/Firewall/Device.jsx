@@ -1,6 +1,6 @@
 import { useEffect,useState } from 'react'
 import './Device.css'
-import { json, useParams } from 'react-router-dom'
+import {  useParams } from 'react-router-dom'
 import axios from 'axios'
 function Device() {
     const {id} = useParams()
@@ -17,6 +17,7 @@ function Device() {
         axios.get(`http://localhost:5000/api/web-console/get-firewall-rules`)
         .then(res => {
             setFirewallRules(JSON.parse(res.data))
+            console.log(res.data)
         })
         .catch(err => {
             console.log(err)
@@ -46,40 +47,37 @@ function Device() {
             </div>
         </div>
         <div className='firewall-rules-outerdiv'>
+            <span className='lato-regular firewall-rules'>Firewall Rules</span>
+            <div className='firewall-rules'>
+                <div className='firewall-rules-buttons'>
+                <button>Inbound</button>
+                <button>Outbound</button>
+                </div>
+                <button className='firewall-rules-add-button '> + Rule </button>
+            </div>
+            <div>
             <table>
-                <tr>
-                    <th>Name</th>
-                    <th>enabled</th>
-                    <th>direction</th>
-                    <th>profiles</th>
-                    <th>grouping</th>
-                    <th>local_ip</th>
-                    <th>remote_ip</th>
-                    <th>protocol</th>
-                    <th>local_port</th>
-                    <th>remote_port</th>
-                    <th>action</th>
-                </tr>
-                <tbody>
-                    {firewallRules.map(rule => {
-                        return (
-                            <tr key={rule.name}>
-                                <td>{rule.name}</td>
-                                <td>{rule.enabled}</td>
-                                <td>{rule.direction}</td>
-                                <td>{rule.profiles}</td>
-                                <td>{rule.grouping}</td>
-                                <td>{rule.local_ip}</td>
-                                <td>{rule.remote_ip}</td>
-                                <td>{rule.protocol}</td>
-                                <td>{rule.local_port}</td>
-                                <td>{rule.remote_port}</td>
-                                <td>{rule.action}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+                    <thead>
+                        <tr>
+                            <th>Rule_Name</th>
+                            <th>Direction</th>
+                            <th>Profiles</th>
+                            <th>Grouping</th>
+                            <th>LocalIp</th>
+                            <th>RemoteIp</th>
+                            <th>Protocol</th>
+                            <th>LocalPort</th>
+                            <th>RemotePort</th>
+                            <th>Edge Traversal</th>
+                            <th>Action</th>
+                            <th>Enabled</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
   )
