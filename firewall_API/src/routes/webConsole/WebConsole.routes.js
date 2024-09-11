@@ -11,4 +11,6 @@ webConsoleRouter.route('/get-device-info/:_id').get(upload.none(),get_device_inf
 webConsoleRouter.route('/get-programs-list').get(upload.none(),get_programs_list)
 webConsoleRouter.route('/get-firewall-rules').get(upload.none(),get_firewall_rules)
 
+// webConsoleRouter.route('/set-firewall-rules').post(upload.none(),set_firewall_rules)
+
 export default webConsoleRouter

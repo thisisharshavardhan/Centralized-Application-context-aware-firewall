@@ -42,4 +42,18 @@ const get_firewall_rules = async (req, res) => {
     }
 }
 
-export  { get_programs_list, get_devices_list, get_device_info, get_firewall_rules }
+const set_firewall_rules = async (req, res) => {
+    try {
+        const { rule_name,program,direction,localIp,remoteIp,protocol,localport,remotePort,action } = req.body
+        if(!rules){
+            return res.status(400).json({message:"Rules needed"})
+        }
+        const response = await axios.post(`http://localhost:8000/agent/set-firewall-rule`,{rules})
+        return res.status(200).json(response.data)
+    } catch (error) {
+        return res.status(500).json({message:"Something went wrong"})
+        console.log(error)
+    }
+}
+
+export  { get_programs_list, get_devices_list, get_device_info, set_firewall_rules,get_firewall_rules }

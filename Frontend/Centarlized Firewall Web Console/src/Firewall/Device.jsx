@@ -7,11 +7,26 @@ function Device() {
     const [device, setDevice] = useState({})
     const [firewallRules, setFirewallRules] = useState([])
     const [state, setState] = useState('inbound')
+    const [Programs, setPrograms] = useState([])
+    const [localIpCheckbox, setLocalIpCheckbox] = useState(true)
+    const [remoteIpCheckbox, setRemoteIpCheckbox] = useState(true)
+    const [localPortCheckbox, setLocalPortCheckbox] = useState(true)
+    const [remotePortCheckbox, setRemotePortCheckbox] = useState(true)
+    const [rulename, setRuleName] = useState('')
+    const [programPath, setProgramPath] = useState('')
+    const [direction, setDirection] = useState('')
+    const [localIp, setLocalIp] = useState('any')
+    const [remoteIp, setRemoteIp] = useState('any')
+    const [protocol, setProtocol] = useState('')
+    const [localPort, setLocalPort] = useState('any')
+    const [remotePort, setRemotePort] = useState('any')
+    const [action, setAction] = useState('')
+
     useEffect(() => {
         axios.get(`http://localhost:5000/api/web-console/get-device-info/${id}`)
             .then(res => {
                 setDevice(res.data)
-                console.log(firewallRules)
+                // console.log(firewallRules)
             })
             .catch(err => {
                 console.log(err)
@@ -19,13 +34,58 @@ function Device() {
         axios.get(`http://localhost:5000/api/web-console/get-firewall-rules`)
             .then(res => {
                 setFirewallRules(JSON.parse(res.data))
-                console.log(res.data)
+                // console.log(res.data)
             })
             .catch(err => {
                 console.log(err)
             })
+        axios.get('http://localhost:5000/api/web-console/get-programs-list')
+            .then(res => {
+                setPrograms(res.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }, [id]);
 
-    }, []);
+    const sendData = (event)=>{
+        event.preventDefault()
+        const data_form = {
+            rulename: rulename,
+            app_path: programPath,
+            direction: direction,
+            action: action,
+            protocol: protocol,
+            localport: localPort,
+            remoteport: remotePort,
+            localip: localIp,
+            remoteip: remoteIp
+        }
+        if (programPath === 'any') {
+            console.log(data_form);
+            
+            axios.post('http://localhost:8000/agent/set-firewall-rule', data_form)
+            .then(res => {
+                console.log(res)
+                
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
+        else{
+            console.log(data_form);
+            
+            axios.post('http://localhost:8000/agent/set-firewall-rule-for-app', data_form)
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        }
+    }
+
     return (
         <div>
             <div className='device-details'>
@@ -127,76 +187,161 @@ function Device() {
                     ) : null}
                     {
                         state === 'addrule' ? (
-                            <div>
+                            <div className='rules-table-forms-div'>
                                 <span className='lato-regular Firewall-rules-sub-title'>New Rule</span>
-                                <form>
+                                <form onSubmit={sendData}>
                                     <label className='lato-light'>Rule Name</label>
-                                    <input type='text' name='rule_name' placeholder='Ex: Android Studio' />
-                                    <label className='lato-light'>Direction</label>
-                                    <select name='direction'>
-                                        <option value='inbound'>Inbound</option>
-                                        <option value='outbound'>Outbound</option>
-                                        <option value='both'>Both</option>
+                                    <input type='text' name='rule_name' placeholder='Ex: Android Studio'
+                                        onChange={(e) => {
+                                            setRuleName(e.target.value)
+                                        }}
+                                        required
+                                    />
+                                    <label className='lato-light'>Program</label>
+                                    <select name='program'
+                                        onChange={(e) => {
+                                            setProgramPath(e.target.value)
+                                        }}
+                                        required
+                                    >
+                                        <option value='' >Select program</option>
+                                        <option value='any' >ALL</option>
+                                        {
+                                            Programs.filter(program => program.DisplayName && program.InstallLocation).map((program, index) => (
+                                                <option value={program.InstallLocation} key={index}>{program.DisplayName}</option>
+                                            ))
+                                        }
+                                        {
+                                            Programs.filter(program => program.Name && program.InstallLocation).map((program, index) => (
+                                                <option value={program.InstallLocation} key={index}>{program.Name}</option>
+                                            ))
+                                        }
                                     </select>
-                                    <label className='lato-light'>Profiles</label>
-                                    {/* three checkbox with public domain private */}
-                                    <div >
-                                        <div>
-                                            <input type='checkbox' name='profiles' value='public' defaultChecked />
-                                            <label className='lato-light'>Public</label>
-                                        </div>
-                                        <div>
-                                            <input type='checkbox' name='profiles' value='private' defaultChecked />
-                                            <label className='lato-light'>Private</label>
-                                        </div>
-                                        <div>
-                                            <input type='checkbox' name='profiles' value='domain' defaultChecked />
-                                            <label className='lato-light'>Domain</label>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <input type='checkbox' name='any_local_ip' value={true} defaultChecked />
-                                        <label className='lato-light'>Any local ip</label>
-                                    </div>
-                                    
-                                    <label className='lato-light'>Local IP</label>
-                                    <input type='text' name='localip' />
-
-                                    <div>
-                                        <input type='checkbox' name='any_remote_ip' defaultChecked />
-                                        <label className='lato-light'>Any remote ip</label>
-                                    </div>
-                                    <label className='lato-light'>Remote IP</label>
-                                    <input type='text' name='remoteip' />
-                                    <div>
-                                        <input type='checkbox' name='all_protocol' defaultChecked />
-                                        <label className='lato-light'>All protocols</label>
-                                    </div>
-                                    <label className='lato-light'>Protocol</label>
-                                    <input type='text' name='protocol' />
-                                    <div>
-                                        <input type='checkbox' name='all_local_port' defaultChecked />
-                                        <label className='lato-light'>All local ports</label>
-                                    </div>
-                                    <label className='lato-light'>LocalPort</label>
-                                    <input type='text' name='localport' />
-                                    <div>
-                                        <input type='checkbox' name='all_remote_port' defaultChecked />
-                                        <label className='lato-light'>All remote ports</label>
-                                    </div>
-                                    <label className='lato-light'>RemotePort</label>
-                                    <input type='text' name='remoteport' />
-                                    <label className='lato-light'>Edge Traversal (allow inbound traffic from outside LAN)</label>
-                                    <select name='edge_traversal'>
-                                        <option value='yes'>Yes</option>
-                                        <option value='no'>No</option>
+                                    <label className='lato-light'>Direction</label>
+                                    <select name='direction' 
+                                        onChange={
+                                            (e) => {
+                                                setDirection(e.target.value)
+                                            }
+                                        }
+                                        required
+                                    >
+                                        <option value=''>Select Direction</option>
+                                        <option value='in'>Inbound</option>
+                                        <option value='out'>Outbound</option>
+                                        <option value="inout">Both</option>
                                     </select>
                                     <label className='lato-light'>Action</label>
-                                    <select name='action'>
+                                    <select name='action'
+                                        onChange={(e) => {
+                                            setAction(e.target.value)
+                                        }}
+                                        required
+                                    >
                                         <option value='allow'>Allow</option>
                                         <option value='block'>Block</option>
                                     </select>
-                                    <button type='submit'>Submit</button>
+                                    <label className='lato-light'>Protocol</label>
+                                    <select name="protocol" id="protocol"
+                                        onChange={(e) => {
+                                            setProtocol(e.target.value)
+                                        }}
+                                    >
+
+                                        <option value="TCP">TCP</option>
+                                        <option value="UDP">UDP</option>
+                                        <option value="HOPOPT">HOPOPT</option>
+                                        <option value="ICMPv4">ICMPv4</option>
+                                        <option value="IGMP">IGMP</option>
+                                        <option value="IPv6">IPv6</option>
+                                        <option value="IPv6Route">IPv6Route</option>
+                                        <option value="IPv6Frag">IPv6Frag</option>
+                                        <option value="GRE">GRE</option>
+                                        <option value="ICMPv6">ICMPv6</option>
+                                        <option value="IPv6-Opts">IPv6-Opts</option>
+                                        <option value="VRRP">VRRP</option>
+                                        <option value="PGM">PGM</option>
+                                        <option value="L2TP">L2TP</option>
+                                    </select>
+                                    <label className='lato-light'>Local IP</label>
+                                    <div>
+                                        <input type='checkbox' name='any_local_ip' value={true}  defaultChecked
+                                            onChange={() => {
+                                                setLocalIpCheckbox(!localIpCheckbox)
+                                            }}
+                                            
+                                        />
+                                        <label className='lato-light'>Any local ip</label>
+                                    </div>
+                                    {
+                                        !localIpCheckbox ?(
+                                        <input type='text' name='localip' placeholder='Ex: 192.168.1.1'
+                                        onChange={(e) => {
+                                            setLocalIp(e.target.value)
+                                        }}
+                                        required
+                                        />
+                                    ) : null
+                                    }
+
+                                    <label className='lato-light'>Remote IP</label>
+                                    <div>
+                                        <input type='checkbox' name='any_remote_ip'  defaultChecked
+                                            onChange={() => {
+                                                setRemoteIpCheckbox(!remoteIpCheckbox)
+                                            }}
+                                        />
+                                        <label className='lato-light'>Any remote ip</label>
+                                    </div>
+                                    {
+                                        !remoteIpCheckbox ?(
+                                        <input type='text' name='remoteip' placeholder='Ex: 8.8.8.8'
+                                        onChange={(e) => {
+                                            setRemoteIp(e.target.value)
+                                        }}
+                                        required
+                                        />
+                                    ) : null
+                                    }
+                                    <label className='lato-light'>LocalPort</label>
+                                    <div>
+                                        <input type='checkbox' name='all_local_port'  defaultChecked
+                                            onChange={() => {
+                                                setLocalPortCheckbox(!localPortCheckbox)
+                                            }}
+                                        />
+                                        <label className='lato-light'>All local ports</label>
+                                    </div>
+                                    {
+                                        !localPortCheckbox ?(
+                                            <input type='text' name='localport' placeholder='Ex: 80, 443, 5000-5005'
+                                            onChange={(e) => {
+                                                setLocalPort(e.target.value)
+                                            }}
+                                            required
+                                            />
+                                        ) : null
+                                    }
+                                    <label className='lato-light'>RemotePort</label>
+                                    <div>
+                                        <input type='checkbox' name='all_remote_port'  defaultChecked
+                                            onChange={() => {
+                                                setRemotePortCheckbox(!remotePortCheckbox)
+                                            }}
+                                        />
+                                        <label className='lato-light'>All remote ports</label>
+                                    </div>
+                                    {
+                                        !remotePortCheckbox ?(
+                                    <input type='text' name='remoteport' placeholder='Ex: 80, 443, 5000-5005'
+                                        onChange={(e) => {
+                                            setRemotePort(e.target.value)
+                                        }}
+                                        required
+                                    />
+                                    ) : null
+                                    }
+                                    <button type='submit'>Add Rule</button>
                                 </form>
                             </div>
                         ) : null

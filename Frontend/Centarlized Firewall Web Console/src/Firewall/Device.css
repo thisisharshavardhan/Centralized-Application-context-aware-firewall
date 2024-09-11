@@ -76,3 +76,38 @@
   flex-direction: column;
   margin-left: 20px;
 }
+
+
+.rules-table-forms-div{
+  margin: 5px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.rules-table-forms-div form{
+  display: flex;
+  flex-direction: column;
+}
+.rules-table-forms-div input,select{
+  padding: 5px;
+}
+.rules-table-forms-div label{
+  margin-top: 20px;
+}
+.rules-table-forms-div input[type="checkbox"]{
+  margin-left: 20px;
+}
+.rules-table-forms-div button{
+  margin: 5px;
+  padding: 5px;
+  margin-bottom: 100px;
+  width: 100px;
+  background-color: rgb(0, 0, 0);
+  color: white;
+  border: none;
+  cursor: pointer;
+
+}
+.rules-table-forms-div button:hover{
+  background-color: rgb(68, 68, 68);
+  color: white;
+}
