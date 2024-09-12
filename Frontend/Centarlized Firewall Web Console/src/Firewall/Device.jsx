@@ -26,7 +26,6 @@ function Device() {
         axios.get(`http://localhost:5000/api/web-console/get-device-info/${id}`)
             .then(res => {
                 setDevice(res.data)
-                // console.log(firewallRules)
             })
             .catch(err => {
                 console.log(err)
@@ -34,7 +33,6 @@ function Device() {
         axios.get(`http://localhost:5000/api/web-console/get-firewall-rules`)
             .then(res => {
                 setFirewallRules(JSON.parse(res.data))
-                // console.log(res.data)
             })
             .catch(err => {
                 console.log(err)
@@ -46,7 +44,8 @@ function Device() {
             .catch(err => {
                 console.log(err)
             })
-    }, [id]);
+    },[id]);
+    console.log(firewallRules);
 
     const sendData = (event)=>{
         event.preventDefault()
