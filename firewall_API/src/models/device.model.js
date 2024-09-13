@@ -4,7 +4,7 @@ const deviceSchema = new mongoose.Schema({
     device_name: {
         type: String,
         required: true,
-        unique: true,
+
     },
     Configuration: {
         CPU: {

@@ -12,7 +12,7 @@ import elevate
 
 def get_installed_apps():
     def run_powershell_command(cmd):
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True,timeout=10)
         if result.returncode == 0:
             try:
                 return json.loads(result.stdout)
@@ -69,16 +69,26 @@ def set_firewall_rule(rulename,direction,action,protocol='any',localport='any',r
         if action not in ["allow", "block"]:
             raise Exception("Invalid action. Must be 'allow' or 'block'")
         
-        if direction not in ["in", "out"]:
-            result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'in', 'action=' + action], capture_output=True, text=True)
-            result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'out', 'action=' + action], capture_output=True, text=True)
-        else:
-            result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + localport, 'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip], capture_output=True, text=True)
+        if not protocol == 'any':
+            if direction not in ["in", "out"]:
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'in', 'action=' + action,'protocol='+protocol,'localport='+localport,'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip], capture_output=True, text=True,timeout=5)
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'out', 'action=' + action,'protocol='+protocol,'localport='+localport,'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip], capture_output=True, text=True,timeout=5)
+            else:
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + localport, 'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip], capture_output=True, text=True,timeout=5)
         
-        if result.returncode != 0:
-            raise Exception(f"Command failed with return code {result.returncode}")
+            if result.returncode != 0:
+                raise Exception(f"Command failed with return code {result.returncode}")
+        elif protocol == 'any':
+            if direction not in ["in", "out"]:
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'in', 'action=' + action,'localport='+localport,'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip], capture_output=True, text=True,timeout=5)
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'out', 'action=' + action,'localport='+localport,'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip], capture_output=True, text=True,timeout=5)
+            else:
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + direction, 'action=' + action, 'localport=' + localport, 'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip], capture_output=True, text=True,timeout=5)
         
+            if result.returncode != 0:
+                raise Exception(f"Command failed with return code {result.returncode}")
         return True
+    
     
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -95,20 +105,19 @@ def set_firewall_rule_for_app(rulename,app_path,direction,action,protocol,localp
             raise Exception("Invalid direction. Must be 'in' or 'out' or 'inout'")
         if (action not in ["allow", "block"]):
             raise Exception("Invalid action. Must be 'allow' or 'block'")
-        
         # $executables = Get-ChildItem -Path $path -Filter *.exe
         executables = [f for f in os.listdir(app_path) if f.endswith('.exe')]
         for executable in executables:
             if direction not in ["in", "out"]:
                 print(app_path+"\\"+executable)
-                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'in', 'action=' + action, 'program=' + app_path + "\\" + executable], capture_output=True, text=True)
-                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'out', 'action=' + action, 'program=' + app_path + "\\" + executable], capture_output=True, text=True)
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'in', 'action=' + action,'protocol='+protocol,'localport='+localport,'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip, 'program=' + app_path + "\\" + executable], capture_output=True, text=True,timeout=5)
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + 'out', 'action=' + action,'protocol='+protocol,'localport='+localport,'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip, 'program=' + app_path + "\\" + executable], capture_output=True, text=True,timeout=5)
             else:
-                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + localport, 'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip, 'program=' + app_path + "\\" + executable], capture_output=True, text=True)     
+                result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'add', 'rule', 'name=' + rulename, 'dir=' + direction, 'action=' + action, 'protocol=' + protocol, 'localport=' + localport, 'remoteport=' + remoteport, 'localip=' + localip, 'remoteip=' + remoteip, 'program=' + app_path + "\\" + executable], capture_output=True, text=True,timeout=5)     
             if result.returncode != 0:
                 raise Exception(f"Command failed with return code {result.returncode}")
         
-        return True
+            return True
     
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -116,7 +125,7 @@ def set_firewall_rule_for_app(rulename,app_path,direction,action,protocol,localp
     
 def get_firewall_rules():
     try:
-        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'show', 'rule', 'name=all'], capture_output=True, text=True)
+        result = subprocess.run(['netsh', 'advfirewall', 'firewall', 'show', 'rule', 'name=all'], capture_output=True, text=True,timeout=5)
         
         if result.returncode != 0:
             raise Exception(f"Command failed with return code {result.returncode}")

@@ -44,7 +44,7 @@ function Device() {
             .catch(err => {
                 console.log(err)
             })
-    },[id]);
+    },[]);
     console.log(firewallRules);
 
     const sendData = (event)=>{
@@ -66,7 +66,14 @@ function Device() {
             axios.post('http://localhost:8000/agent/set-firewall-rule', data_form)
             .then(res => {
                 console.log(res)
-                
+                if (res.data == true) {
+                    alert('Rule added successfully')
+                    console.log('Rule added successfully');
+                }
+                else{
+                    alert('Rule not added')
+                    console.log('Rule not added');
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -78,6 +85,14 @@ function Device() {
             axios.post('http://localhost:8000/agent/set-firewall-rule-for-app', data_form)
             .then(res => {
                 console.log(res)
+                if (res.data == true) {
+                    alert('Rule added successfully')
+                    console.log('Rule added successfully');
+                }
+                else{
+                    alert('Rule not added')
+                    console.log('Rule not added');
+                }
             })
             .catch(err => {
                 console.log(err)
@@ -245,14 +260,15 @@ function Device() {
                                         onChange={(e) => {
                                             setProtocol(e.target.value)
                                         }}
+                                        required
                                     >
-
+                                        <option value=''>Select Protocol</option>
+                                        <option value="IPv6">IPv6</option>
                                         <option value="TCP">TCP</option>
                                         <option value="UDP">UDP</option>
                                         <option value="HOPOPT">HOPOPT</option>
                                         <option value="ICMPv4">ICMPv4</option>
                                         <option value="IGMP">IGMP</option>
-                                        <option value="IPv6">IPv6</option>
                                         <option value="IPv6Route">IPv6Route</option>
                                         <option value="IPv6Frag">IPv6Frag</option>
                                         <option value="GRE">GRE</option>
