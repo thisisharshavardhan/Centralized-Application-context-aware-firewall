@@ -4,7 +4,6 @@ from fastapi.middleware.cors import CORSMiddleware
 import requests
 import elevate
 
-
 app = fastapi.FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -12,7 +11,6 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-
 )
 # elevate.elevate()
 

@@ -44,7 +44,7 @@ function Device() {
             .catch(err => {
                 console.log(err)
             })
-    },[]);
+    },[id]);
     console.log(firewallRules);
 
     const sendData = (event)=>{
@@ -149,54 +149,12 @@ function Device() {
                         state === 'inbound' ? (
                             <>
                                 <span className='lato-regular Firewall-rules-sub-title'>Inbound Rules</span>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Rule_Name</th>
-                                            <th>Direction</th>
-                                            <th>Profiles</th>
-                                            <th>Grouping</th>
-                                            <th>LocalIp</th>
-                                            <th>RemoteIp</th>
-                                            <th>Protocol</th>
-                                            <th>LocalPort</th>
-                                            <th>RemotePort</th>
-                                            <th>Edge Traversal</th>
-                                            <th>Action</th>
-                                            <th>Enabled</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                    </tbody>
-                                </table>
                             </>
                         ) : null
                     }
                     {state === 'outbound' ? (
                         <>
                             <span className='lato-regular Firewall-rules-sub-title'>Outbound Rules</span>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Rule_Name</th>
-                                        <th>Direction</th>
-                                        <th>Profiles</th>
-                                        <th>Grouping</th>
-                                        <th>LocalIp</th>
-                                        <th>RemoteIp</th>
-                                        <th>Protocol</th>
-                                        <th>LocalPort</th>
-                                        <th>RemotePort</th>
-                                        <th>Edge Traversal</th>
-                                        <th>Action</th>
-                                        <th>Enabled</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
                         </>
                     ) : null}
                     {
