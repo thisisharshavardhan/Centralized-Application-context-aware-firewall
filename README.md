@@ -2,4 +2,4 @@
 
 ### System Design
 
-![System Design](/Public/Screenshot 2024-09-15 172342.png)
+![System Design](https://github.com/thisisharshavardhan/Context-Aware-Centralized-Application-Firewall/blob/main/Public/Screenshot%202024-09-15%20172342.png?raw=true)
