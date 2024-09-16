@@ -158,6 +158,12 @@ function Device() {
                         </>
                     ) : null}
                     {
+                        state === 'deleterule' ? (
+                            <div>
+                                delete rule
+                            </div>
+                        ) : null}
+                    {
                         state === 'addrule' ? (
                             <div className='rules-table-forms-div'>
                                 <span className='lato-regular Firewall-rules-sub-title'>New Rule</span>
