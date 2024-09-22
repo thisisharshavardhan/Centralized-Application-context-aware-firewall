@@ -12,11 +12,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-<<<<<<< HEAD
-=======
-# elevate.elevate()
-
->>>>>>> d331f58dcb5ae65f3804f05bb65535fd38e2cfdb
 
 def send_system_info():
     system_info = Firewall_utils.get_system_info()
