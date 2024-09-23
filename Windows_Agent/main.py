@@ -1,15 +1,13 @@
 import Firewall_utils
+import asyncio
+from websockets.sync.client import connect
 import requests
 import elevate
 
 
 def send_system_info():
     system_info = Firewall_utils.get_system_info()
-    response = requests.post('http://localhost:5000/api/agent/send-systeminfo', system_info)
-    if response.status_code == 200:
-        print("System info sent successfully")
-    else:
-        print(f"Failed to send system info: {response.status_code}")
+    
 
 try:
     send_system_info()
