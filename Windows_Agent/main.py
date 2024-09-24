@@ -1,18 +1,28 @@
 import Firewall_utils
-import asyncio
-from websockets.sync.client import connect
-import requests
-import elevate
+import socketio
+import os
+from dotenv import load_dotenv
+load_dotenv()
+print("Please wait Connecting to Server...")
 
 
-def send_system_info():
-    system_info = Firewall_utils.get_system_info()
-    
+System_info = Firewall_utils.get_system_info()
+
 
 try:
-    send_system_info()
-except :
-    print("!!! Unable to connect to server")
+    sio = socketio.SimpleClient()
+    sio.connect(os.getenv('SERVER_URL'))
+
+    sio.emit('System_info',  System_info  )
+
+
+    
+    print("Connected to Server")
+except Exception as e:
+    print('Failed to connect to server')
+    print(e)
+
+
 
 # @app.get("/agent/get-programs-list")
 # async def hello():

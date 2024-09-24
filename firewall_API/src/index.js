@@ -1,9 +1,9 @@
 import { DB_connect } from "./DB/index.db.js"
-import { app } from "./app.js"
+import { server } from "./sockets.js"
 import {} from 'dotenv/config'
 
 DB_connect().then(()=>{
-  app.listen(process.env.PORT, () => {
+  server.listen(process.env.PORT, () => {
     console.log(`Firewall Server listening on port ${process.env.PORT}`)
   })
 })

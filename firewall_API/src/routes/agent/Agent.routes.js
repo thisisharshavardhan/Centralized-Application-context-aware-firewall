@@ -8,6 +8,5 @@ const upload = multer();
 
 agentRouter.route('/send-programs-list').post(upload.none(),sendProgramList)
 
-agentRouter.route('/send-systeminfo').post(upload.none(),sendSystemInfo)
 
 export default agentRouter
