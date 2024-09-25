@@ -2,7 +2,7 @@ import { createServer } from 'http'
 import { Server } from 'socket.io'
 import { app } from './app.js'
 import {} from 'dotenv/config'
-import { sendSystemInfo } from './controllers/Agent.controller.js'
+import { sendSystemInfo,sendProgramList } from './controllers/Agent.controller.js'
 
 const server = createServer(app)
 const io = new Server(server,{
@@ -11,6 +11,7 @@ const io = new Server(server,{
         methods:['GET','POST']
     }
 })
+
 
 io.on('connection',(socket)=>{
 
@@ -22,8 +23,12 @@ io.on('connection',(socket)=>{
         console.log('Socket disconnected')
     })
 
+    socket.on('programs_list',(data)=>{
+        sendProgramList(socket,data)
+    })
+
 
 })
 
 
-export { server }
+export { io, server }

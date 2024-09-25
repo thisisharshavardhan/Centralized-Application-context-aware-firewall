@@ -1,9 +1,15 @@
 import axios from 'axios'
 import {Device} from '../models/device.model.js'
+import { io } from '../sockets.js'
 const get_programs_list = async (req, res) => {
     try {
-        const programs = await axios.get(`http://localhost:8000/agent/get-programs-list`)
-        return res.status(200).json(programs.data)
+        const { _id } = req.params
+        const device_Details = await Device.findById(_id)
+        const device_socket_id = device_Details.socket_id
+        let programs = device_Details.all_apps
+        io.to(device_socket_id).emit('get_programs_list')
+        
+        return res.status(200).json(programs)
     } catch (error) {
         res.status(500).json({message:"Something went wrong"})
         console.log(error)
@@ -43,13 +49,40 @@ const get_firewall_rules = async (req, res) => {
 }
 
 const set_firewall_rules = async (req, res) => {
+    
     try {
-        const { rule_name,program,direction,localIp,remoteIp,protocol,localport,remotePort,action } = req.body
-        if(!rules){
+        const { _id } = req.params
+        const { rulename,app_path,direction,localip,remoteip,protocol,localport,remoteport,action } = req.body
+        const rule = {
+            rulename,
+            app_path,
+            direction,
+            localip,
+            remoteip,
+            protocol,
+            localport,
+            remoteport,
+            action
+
+        }
+        
+        if(!rule){
             return res.status(400).json({message:"Rules needed"})
         }
-        const response = await axios.post(`http://localhost:8000/agent/set-firewall-rule`,{rules})
-        return res.status(200).json(response.data)
+        const device = await Device.findById(_id)
+        if(!device.socket_id){
+            return res.status(500).send("Invalid device id")
+        }
+        const device_socket_id = device.socket_id
+        // const response = await axios.post(`http://localhost:8000/agent/set-firewall-rule`,{rules})
+        try {
+            
+            await io.to(device_socket_id).emit('set_firewall_rule',rule)
+            return res.status(200).send(true)
+        } catch (error) {
+            console.log(error);
+            
+        }
     } catch (error) {
         return res.status(500).json({message:"Something went wrong"})
         console.log(error)

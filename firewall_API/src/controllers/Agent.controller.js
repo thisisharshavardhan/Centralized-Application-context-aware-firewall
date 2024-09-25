@@ -1,24 +1,20 @@
 import  {Device}  from "../models/device.model.js";
 
-const sendProgramList = async (req, res) => {
+const sendProgramList = async (socket,data) => {
     
-    const all_apps = req.body
-    all_apps.forEach(app => {
-        if(!app.InstallLocation){
-            
-        }
-        else{
-            console.log(app)
-        }
-    });
+    const all_apps = data
+    const device = await Device.findOne({socket_id: socket.id})
+    device.all_apps = data
+    await device.save()
+    return  socket.emit('success',"apps sent to server")
     
-    res.send("req received")
     
 }
 
 const sendSystemInfo = async (socket, info) => {
     try {
-
+        console.log(socket.id);
+        
         const system_info = info;
         if (!system_info) {
             console.log("No data received");
@@ -27,9 +23,12 @@ const sendSystemInfo = async (socket, info) => {
 
         const already_exists = await Device.findOne({ device_name: system_info.device_name });
         if (already_exists) {
-            return socket.emit('error', { message: "Device already exists" });
+            already_exists.socket_id = socket.id;
+            await already_exists.save();
+            return socket.emit('error', { message: "Welcome back !!" });
         }
         const deviceData = await Device.create({
+            socket_id: socket.id,
             device_name: system_info.device_name,
             Configuration: {
                 CPU: system_info.Configuration.CPU,
@@ -41,7 +40,7 @@ const sendSystemInfo = async (socket, info) => {
             hostname: system_info.hostname
         });
 
-        return socket.emit('systemInfoResponse', deviceData);
+        return socket.emit('success', deviceData);
     } catch (error) {
         return socket.emit('error', { message: error.message });
     }

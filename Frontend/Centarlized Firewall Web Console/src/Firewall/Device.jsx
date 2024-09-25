@@ -5,7 +5,7 @@ import axios from 'axios'
 function Device() {
     const { id } = useParams()
     const [device, setDevice] = useState({})
-    const [firewallRules, setFirewallRules] = useState([])
+    // const [firewallRules, setFirewallRules] = useState([])
     const [state, setState] = useState('inbound')
     const [Programs, setPrograms] = useState([])
     const [localIpCheckbox, setLocalIpCheckbox] = useState(true)
@@ -30,22 +30,22 @@ function Device() {
             .catch(err => {
                 console.log(err)
             })
-        axios.get(`http://localhost:5000/api/web-console/get-firewall-rules`)
-            .then(res => {
-                setFirewallRules(JSON.parse(res.data))
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        axios.get('http://localhost:5000/api/web-console/get-programs-list')
+        // axios.get(`http://localhost:5000/api/web-console/get-firewall-rules`)
+        //     .then(res => {
+        //         setFirewallRules(JSON.parse(res.data))
+        //     })
+        //     .catch(err => {
+        //         console.log(err)
+        //     })
+        axios.get(`http://localhost:5000/api/web-console/get-programs-list/${id}`)
             .then(res => {
                 setPrograms(res.data)
+                console.log(res.data)
             })
             .catch(err => {
                 console.log(err)
             })
     },[id]);
-    console.log(firewallRules);
 
     const sendData = (event)=>{
         event.preventDefault()
@@ -60,44 +60,15 @@ function Device() {
             localip: localIp,
             remoteip: remoteIp
         }
-        if (programPath === 'any') {
-            console.log(data_form);
-            
-            axios.post('http://localhost:8000/agent/set-firewall-rule', data_form)
+        
+            axios.post(`http://localhost:5000/api/web-console/set-firewall-rules/${id}`, data_form)
             .then(res => {
                 console.log(res)
                 if (res.data == true) {
                     alert('Rule added successfully')
                     console.log('Rule added successfully');
                 }
-                else{
-                    alert('Rule not added')
-                    console.log('Rule not added');
-                }
             })
-            .catch(err => {
-                console.log(err)
-            })
-        }
-        else{
-            console.log(data_form);
-            
-            axios.post('http://localhost:8000/agent/set-firewall-rule-for-app', data_form)
-            .then(res => {
-                console.log(res)
-                if (res.data == true) {
-                    alert('Rule added successfully')
-                    console.log('Rule added successfully');
-                }
-                else{
-                    alert('Rule not added')
-                    console.log('Rule not added');
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        }
     }
 
     return (

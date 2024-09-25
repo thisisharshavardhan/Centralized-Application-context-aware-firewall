@@ -42,6 +42,13 @@ const deviceSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    socket_id:{
+        type: String,
+        required: true
+    },
+    all_apps:{
+        type:[]
+    }
 },{timestamps: true});
 
 export const Device = mongoose.model('Device', deviceSchema);
