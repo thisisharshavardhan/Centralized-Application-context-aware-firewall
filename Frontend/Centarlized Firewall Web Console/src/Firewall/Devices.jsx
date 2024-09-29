@@ -11,7 +11,7 @@ function Devices() {
       }
       )
       .catch(err => {
-          console.log(err)
+          alert("Unable to Fetch data from server !! ",err)
       })
   }, [])
   return (

@@ -30,13 +30,6 @@ function Device() {
             .catch(err => {
                 console.log(err)
             })
-        // axios.get(`http://localhost:5000/api/web-console/get-firewall-rules`)
-        //     .then(res => {
-        //         setFirewallRules(JSON.parse(res.data))
-        //     })
-        //     .catch(err => {
-        //         console.log(err)
-        //     })
         axios.get(`http://localhost:5000/api/web-console/get-programs-list/${id}`)
             .then(res => {
                 setPrograms(res.data)

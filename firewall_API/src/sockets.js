@@ -26,8 +26,7 @@ io.on('connection',(socket)=>{
     socket.on('programs_list',(data)=>{
         sendProgramList(socket,data)
     })
-
-
+    
 })
 
 
