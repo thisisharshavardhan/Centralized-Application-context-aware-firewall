@@ -1,14 +1,15 @@
 import  {Device}  from "../models/device.model.js";
 
-const sendProgramList = async (socket,data) => {
-    
-    const all_apps = data
+const sendProgramList = async (socket,data) => {   
+    try {
+         const all_apps = data
     const device = await Device.findOne({socket_id: socket.id})
     device.all_apps = data
     await device.save()
     return  socket.emit('success',"apps sent to server")
-    
-    
+    } catch (error) {
+        console.log(error);
+    }   
 }
 
 const sendSystemInfo = async (socket, info) => {
