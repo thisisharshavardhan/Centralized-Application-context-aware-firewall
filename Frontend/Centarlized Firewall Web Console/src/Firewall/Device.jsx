@@ -30,7 +30,8 @@ function Device() {
             .catch(err => {
                 console.log(err)
             })
-        axios.get(`http://localhost:5000/api/web-console/get-programs-list/${id}`)
+            setTimeout(() => {
+                axios.get(`http://localhost:5000/api/web-console/get-programs-list/${id}`)
             .then(res => {
                 setPrograms(res.data)
                 console.log(res.data)
@@ -38,6 +39,8 @@ function Device() {
             .catch(err => {
                 console.log(err)
             })
+        },2000)
+
     },[id]);
 
     const sendData = (event)=>{
