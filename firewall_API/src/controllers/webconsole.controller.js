@@ -5,10 +5,7 @@ const get_programs_list = async (req, res) => {
     try {
         const { _id } = req.params
         const device_Details = await Device.findById(_id)
-        const device_socket_id = device_Details.socket_id
-        let programs = device_Details.all_apps
-        io.to(device_socket_id).emit('get_programs_list')
-        
+        let programs = device_Details.all_apps  
         return res.status(200).json(programs)
     } catch (error) {
         res.status(500).json({message:"Something went wrong"})
@@ -40,7 +37,13 @@ const get_device_info = async (req, res) => {
 
 const get_firewall_rules = async (req, res) => {
     try {
-        const rules = await axios.get(`http://localhost:8000/agent/get-firewall-rules`)
+        const { _id } = req.params
+        const device = await Device.findById(_id)
+        if(!device.socket_id){
+            return res.status(500).send("Invalid device id")
+        }
+        const device_socket_id = device.socket_id
+        
         return res.status(200).json(rules.data)
     } catch (error) {
         return res.status(500).json({message:"Something went wrong"})
