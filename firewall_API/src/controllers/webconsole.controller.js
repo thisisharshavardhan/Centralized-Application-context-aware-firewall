@@ -5,7 +5,19 @@ const get_programs_list = async (req, res) => {
     try {
         const { _id } = req.params
         const device_Details = await Device.findById(_id)
-        let programs = device_Details.all_apps  
+        if (!device_Details) {
+            return res.status(400).json({
+                message: "device not found"
+            })
+        }
+        let programs = device_Details.all_apps
+        if(!programs){
+            return res.status.json(
+                {
+                    message: "no programs found for the device "+_id
+                }
+            )
+        }  
         return res.status(200).json(programs)
     } catch (error) {
         res.status(500).json({message:"Something went wrong"})
