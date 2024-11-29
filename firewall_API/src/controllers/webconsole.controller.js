@@ -4,6 +4,13 @@ import { io } from '../sockets.js'
 const get_programs_list = async (req, res) => {
     try {
         const { _id } = req.params
+        if(!_id || _id === 'undefined'){
+            return res.status(400).json(
+                {
+                    message: 'id required'
+                }
+            )
+        }
         const device_Details = await Device.findById(_id)
         if (!device_Details) {
             return res.status(400).json({
@@ -12,7 +19,7 @@ const get_programs_list = async (req, res) => {
         }
         let programs = device_Details.all_apps
         if(!programs){
-            return res.status.json(
+            return res.status(400).json(
                 {
                     message: "no programs found for the device "+_id
                 }
@@ -33,8 +40,10 @@ const get_devices_list = async (req, res) => {
 const get_device_info = async (req, res) => {
     try {
         const { _id } = req.params
-        if(!_id){
-            return res.status(400).send({message:"ID needed to get device info"})
+
+        
+        if(!_id || _id === 'undefined'){
+            return res.status(400).json({message:"ID needed to get device info"})
         }
         const device = await Device.findById(_id)
         if(!device){
@@ -50,6 +59,11 @@ const get_device_info = async (req, res) => {
 const get_firewall_rules = async (req, res) => {
     try {
         const { _id } = req.params
+        if(!_id || _id === 'undefined'){
+            return res.status(400).json({
+                message: 'id need to get firerules'
+            })
+        }
         const device = await Device.findById(_id)
         if(!device.socket_id){
             return res.status(500).send("Invalid device id")
@@ -67,6 +81,11 @@ const set_firewall_rules = async (req, res) => {
     
     try {
         const { _id } = req.params
+        if (!_id || _id === 'undefined') {
+            return res.status(400).json({
+                message: 'id needed to set firewall rule'
+            })
+        }
         const { rulename,app_path,direction,localip,remoteip,protocol,localport,remoteport,action } = req.body
         const rule = {
             rulename,
