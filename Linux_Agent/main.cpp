@@ -17,7 +17,30 @@
 //         std::cerr << "Failed to add rule.\n";
 //     }
 // }
+void getSystemInfo() {
+    // OS Info
+    std::cout << "Operating System Information:" << std::endl;
+    system("uname -a");
 
+    // CPU Info
+    std::ifstream cpuInfo("/proc/cpuinfo");
+    std::string line;
+    std::cout << "\nCPU Information:" << std::endl;
+    while (std::getline(cpuInfo, line)) {
+        if (line.find("model name") != std::string::npos || line.find("cpu cores") != std::string::npos) {
+            std::cout << line << std::endl;
+        }
+    }
+    cpuInfo.close();
+
+    // Memory Info
+    std::ifstream memInfo("/proc/meminfo");
+    std::cout << "\nMemory Information:" << std::endl;
+    for (int i = 0; i < 5 && std::getline(memInfo, line); ++i) {
+        std::cout << line << std::endl;
+    }
+    memInfo.close();
+}
 
 void resolveDomainToIP(const std::string& domain) {
     struct hostent* host = gethostbyname(domain.c_str());
@@ -28,5 +51,7 @@ void resolveDomainToIP(const std::string& domain) {
         std::cerr << "Failed to resolve domain.\n";
     }
 }
+
+
 
 
