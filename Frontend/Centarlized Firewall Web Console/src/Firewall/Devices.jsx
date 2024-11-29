@@ -3,17 +3,24 @@ import axios from 'axios'
 import './Devices.css'
 import { NavLink } from "react-router-dom"
 function Devices() {
-  const [devices, setDevices] = useState([])
-  useEffect(() => {
-      axios.get('http://localhost:5000/api/web-console/get-devices-list')
-      .then(res => {
-          setDevices(res.data)
-      }
-      )
-      .catch(err => {
-          alert("Unable to Fetch data from server !! ",err)
-      })
-  }, [])
+  const [devices, setDevices] = useState([
+    {
+        hostname: 'ubuntu',
+        ip: '192.168.1.1',
+        os: 'linux',
+        status: 'active',
+    }
+])
+//   useEffect(() => {
+//       axios.get('http://localhost:5000/api/web-console/get-devices-list')
+//       .then(res => {
+//           setDevices(res.data)
+//       }
+//       )
+//       .catch(err => {
+//           alert("Unable to Fetch data from server !! ",err)
+//       })
+//   }, [])
   return (
     <>
         <div className="outer-div">
@@ -22,29 +29,26 @@ function Devices() {
             <table className="devices-list-table">
                 <thead>
                     <tr className="devices-list-table-heading">
-                        <th>Device Name</th>
+                        <th>Hostname</th>
                         <th>IP</th>
                         <th>OS</th>
-                        <th>OS Version</th>
                         <th>Status</th>
-                        <th>Hostname</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {devices.map((device) => (
                       <tr className="tr-data lato-light" key={device._id} >
-                            {/* <td>{device.device_name}</td>
+                            <td><NavLink to={`/devices/${device._id}`} className={'device-name-link'}>{device.hostname}</NavLink></td>
                             <td>{device.ip}</td>
                             <td>{device.os}</td>
-                            <td>{device.os_version}</td>
                             <td>{device.status}</td>
-                            <td>{device.hostname}</td> */}
-                            <td><NavLink to={`/devices/${device._id}`} className={'device-name-link'}>{device.device_name}</NavLink></td>
-                            <td>{device.ip}</td>
-                            <td>{device.os}</td>
-                            <td>{device.os_version}</td>
-                            <td>{device.status}</td>
-                            <td>{device.hostname}</td>
+                            <td>
+                                <button className="lato-bold">
+                                    Remove
+                                </button>
+                            </td>
+                            
                       </tr>
                     ))}
                 </tbody>
