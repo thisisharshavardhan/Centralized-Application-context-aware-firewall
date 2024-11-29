@@ -16,6 +16,20 @@ table{
     color: white;
     padding: 10px 4em;
 }
+.devices-list-table td button{
+    /* border: 1px solid white; */
+    color: rgb(255, 255, 255);
+    padding: 2px;
+    border-color: black;
+    background-color: rgba(255, 255, 255, 0);
+}
+.devices-list-table td button:hover{
+    /* border: 1px solid white; */
+    color: rgb(255, 255, 255);
+    background-color: rgb(255, 0, 0);
+    transition: 400ms;
+    
+}
 .devices-list-table-heading th{
     /* border: 1px solid white; */
     color: white;
