@@ -3,6 +3,7 @@ import './App.css'
 import { NavLink, Routes,Route } from 'react-router-dom'
 import Devices from './Firewall/Devices'
 import Device from './Firewall/Device'
+import Dashboard from './Firewall/Dashboard'
 function App() {
   return (
     
@@ -26,7 +27,7 @@ function App() {
           </nav>
             <div className='content'>
                 <Routes>
-                    <Route path='/dashboard' element={<>No files</>} />
+                    <Route path='/dashboard' element={<Dashboard/>} />
                     <Route path='/devices' element={<Devices/>} />
                     <Route path='/devices/:id' element={<Device/>} />
                 </Routes>
