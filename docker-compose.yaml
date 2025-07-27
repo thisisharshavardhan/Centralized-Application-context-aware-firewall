@@ -3,9 +3,7 @@ services:
   mongodb:
     image: mongo:latest
     container_name: mongodb
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=KHV
-      - MONGO_INITDB_ROOT_PASSWORD=SomeStupidPassword
+     
     volumes:
       - mongo-data:/data/db
     networks:
@@ -19,7 +17,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - DB_URI=mongodb://admin:SomeStupidPassword@mongodb:27017
+      - DB_URI=mongodb://mongodb:27017
       - CORS_ORIGIN=http://localhost:8080
       - PORT=5000
     depends_on:

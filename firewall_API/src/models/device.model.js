@@ -1,54 +1,17 @@
 import mongoose from 'mongoose';
 
 const deviceSchema = new mongoose.Schema({
-    device_name: {
-        type: String,
-        required: true,
-
-    },
-    Configuration: {
-        CPU: {
-            type: String,
-            // required: true,
-        },
-        RAM: {
-            type: String,
-            // required: true,
-        },
-        Network: {
-            type: String,
-            // required: true,
-        },
-
-    },
-    ip: {
-        type: String,
-        required: true,
-        // unique: true,
-    },
-    os: {
-        type: String,
-        required: true,
-    },
-    os_version: {
-        type: String,
-        required: true,
-    },
+    hostname: { type: String, required: true },                
+    os: { type: String, required: true },                      
+    agentVersion: { type: String, default: "1.0.0" },          
+    ipAddress: { type: String },                              
+    macAddress: { type: String },                              
     status: {
         type: String,
-        default: 'online',
-    },
-    hostname: {
-        type: String,
-        required: true,
-    },
-    socket_id:{
-        type: String,
-        required: true
-    },
-    all_apps:{
-        type:[]
-    }
-},{timestamps: true});
+        enum: ['online', 'offline', 'pending', 'blocked'],
+        default: 'pending'
+    },                                                        
+ 
+}, { timestamps: true });
 
 export const Device = mongoose.model('Device', deviceSchema);
