@@ -47,6 +47,10 @@ const sendSystemInfo = async (socket, info) => {
     }
 };
 
+// const registerDevice = async (req,res) = {
+
+// }
+
 
 
 export {
