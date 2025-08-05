@@ -8,11 +8,14 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import DevicesIcon from '@mui/icons-material/Devices';
 import RuleIcon from '@mui/icons-material/Rule';
 import SettingsIcon from '@mui/icons-material/Settings';
+import GroupIcon from '@mui/icons-material/Group';
+import { Group } from '../../../firewall_API/src/models/group.model';
 
 const drawerWidth = 240;
 
 const navItems = [
   { text: 'Dashboard', icon: <DashboardIcon />, path: '/' },
+  {text: 'Groups', icon: <GroupIcon/>, path: '/groups' },
   { text: 'Devices', icon: <DevicesIcon />, path: '/devices' },
   { text: 'Rules', icon: <RuleIcon />, path: '/rules' },
   { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },

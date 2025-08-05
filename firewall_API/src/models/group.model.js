@@ -7,8 +7,6 @@ const groupSchema = new mongoose.Schema({
         enum: ['active', 'inactive'],
         default: 'active'
     },
-    
-
     devices: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Device' }],
 }, { timestamps: true });
 
