@@ -6,6 +6,6 @@
 
 ## System Design
 
-![System Design](https://github.com/thisisharshavardhan/Context-Aware-Centralized-Application-Firewall/blob/main/Public/architechture.png?raw=true)
+![System Design](https://github.com/thisisharshavardhan/Centralized-Application-context-aware-firewall/blob/main/Public/architecture.png?raw=true)
 
 
